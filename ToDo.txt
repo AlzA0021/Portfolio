@@ -1,4 +1,9 @@
 Create main_template Done
     sort templates Done
-    Optimize and readable HomeApp backend codes 
+    Optimize and readable HomeApp backend codes Done
+    Create portfolio section in index Done  
+    create portfolio detail page Done
+    
+
+Add Projects in portfolio 
 
