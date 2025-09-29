@@ -68,6 +68,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "apps.home.views.media_admin",
+                "apps.home.context_processors.portfolio_context",
             ],
         },
     },

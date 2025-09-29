@@ -1,0 +1,337 @@
+<!-- templates/home/portfolio_detail.html -->
+{% extends "main_template.html" %}
+{% load static %}
+
+{% block title %}{{ item.title }} - Portfolio - Alireza Anari{% endblock title %}
+
+{% block content %}
+
+<!-- Portfolio Details Section -->
+<section id="portfolio-details" class="portfolio-details section">
+
+    <div class="container" data-aos="fade-up">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home:index' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home:index' %}#portfolio">Portfolio</a></li>
+                <li class="breadcrumb-item active">{{ item.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="row gy-4">
+
+            <!-- Left Column - Images -->
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+                
+                <!-- Main Image -->
+                <div class="portfolio-details-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+                        
+                        <!-- Main Detail Image or Thumbnail -->
+                        <div class="swiper-slide">
+                            <img src="{% if item.detail_image %}{{ item.detail_image.url }}{% else %}{{ item.thumbnail.url }}{% endif %}" 
+                                 alt="{{ item.title }}" 
+                                 class="img-fluid">
+                        </div>
+
+                        <!-- Gallery Images -->
+                        {% for image in item.gallery_images.all %}
+                        <div class="swiper-slide">
+                            <img src="{{ image.image.url }}" 
+                                 alt="{{ image.caption|default:item.title }}" 
+                                 class="img-fluid">
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+            </div>
+
+            <!-- Right Column - Project Info -->
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="portfolio-info">
+                    <h3>{{ item.title }}</h3>
+                    
+                    <ul>
+                        <li><strong>Category</strong>: 
+                            <a href="{% url 'home:portfolio_category' item.category.slug %}">
+                                {{ item.category.name }}
+                            </a>
+                        </li>
+                        
+                        {% if item.client %}
+                        <li><strong>Client</strong>: {{ item.client }}</li>
+                        {% endif %}
+                        
+                        {% if item.project_date %}
+                        <li><strong>Project date</strong>: {{ item.project_date|date:"F Y" }}</li>
+                        {% endif %}
+                        
+                        {% if item.project_url %}
+                        <li><strong>Project URL</strong>: 
+                            <a href="{{ item.project_url }}" target="_blank" rel="noopener">
+                                Visit Website <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                        
+                        {% if item.github_url %}
+                        <li><strong>GitHub</strong>: 
+                            <a href="{{ item.github_url }}" target="_blank" rel="noopener">
+                                View Code <i class="bi bi-github"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    <!-- Technologies -->
+                    {% if technologies %}
+                    <div class="technologies mt-4">
+                        <h4>Technologies Used</h4>
+                        <div class="tech-tags">
+                            {% for tech in technologies %}
+                            <span class="badge bg-primary me-2 mb-2">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <!-- Social Share -->
+                <div class="portfolio-share mt-4">
+                    <h4>Share this project</h4>
+                    <div class="social-links d-flex">
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ item.title }}" 
+                           target="_blank" 
+                           class="twitter">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           target="_blank" 
+                           class="facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ item.title }}" 
+                           target="_blank" 
+                           class="linkedin">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Description Section -->
+        <div class="row mt-5">
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="300">
+                
+                <div class="portfolio-description">
+                    <h2>Project Overview</h2>
+                    <div class="description-content">
+                        {{ item.full_description|linebreaks }}
+                    </div>
+
+                    <!-- Key Features -->
+                    {% if features %}
+                    <h3 class="mt-4">Key Features</h3>
+                    <ul class="features-list">
+                        {% for feature in features %}
+                        <li><i class="bi bi-check-circle-fill text-success"></i> {{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Related Projects -->
+        {% if related_items %}
+        <div class="row mt-5">
+            <div class="col-12" data-aos="fade-up">
+                <h3 class="mb-4">Related Projects</h3>
+            </div>
+            
+            {% for related in related_items %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                <div class="card portfolio-card h-100">
+                    <img src="{{ related.thumbnail.url }}" class="card-img-top" alt="{{ related.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related.title }}</h5>
+                        <p class="card-text">{{ related.short_description|truncatewords:20 }}</p>
+                        <a href="{% url 'home:portfolio_detail' related.slug %}" class="btn btn-primary">
+                            View Details <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+</section><!-- /Portfolio Details Section -->
+
+<!-- Custom Styles for Portfolio Detail -->
+<style>
+.portfolio-details .breadcrumb {
+    background: transparent;
+    padding: 0;
+}
+
+.portfolio-details .portfolio-info {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.portfolio-details .portfolio-info h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.portfolio-details .portfolio-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.portfolio-details .portfolio-info ul li {
+    padding: 10px 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.portfolio-details .portfolio-info ul li strong {
+    min-width: 120px;
+    color: #495057;
+}
+
+.portfolio-details .technologies h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.portfolio-details .tech-tags .badge {
+    font-size: 14px;
+    padding: 8px 15px;
+    font-weight: 500;
+}
+
+.portfolio-details .portfolio-share h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.portfolio-details .social-links a {
+    background: #495057;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.portfolio-details .social-links a:hover {
+    transform: translateY(-3px);
+}
+
+.portfolio-details .social-links a.twitter:hover {
+    background: #1da1f2;
+}
+
+.portfolio-details .social-links a.facebook:hover {
+    background: #1877f2;
+}
+
+.portfolio-details .social-links a.linkedin:hover {
+    background: #0077b5;
+}
+
+.portfolio-description h2,
+.portfolio-description h3 {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.portfolio-description .description-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #6c757d;
+}
+
+.portfolio-description .features-list {
+    list-style: none;
+    padding: 0;
+}
+
+.portfolio-description .features-list li {
+    padding: 10px 0;
+    font-size: 16px;
+    color: #495057;
+}
+
+.portfolio-description .features-list li i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.portfolio-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-10px);
+}
+
+.portfolio-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.portfolio-card .btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+}
+
+.portfolio-details-slider {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.portfolio-details-slider img {
+    width: 100%;
+    height: auto;
+}
+</style>
+
+{% endblock content %}
