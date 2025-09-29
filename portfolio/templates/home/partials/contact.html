@@ -1,0 +1,414 @@
+<!-- home/templates/home/partials/contact.html -->
+{% load static %}
+
+<section id="contact" class="contact section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Have a project in mind or a question? Send me a message, and let's start the conversation.</p>
+    </div><!-- End Section Title -->
+    
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="info-wrap" data-aos="fade-up" data-aos-delay="200">
+            <div class="row gy-5">
+                <div class="col-lg-4">
+                    <div class="info-item d-flex align-items-center">
+                        <i class="bi bi-geo-alt flex-shrink-0"></i>
+                        <div>
+                            <h3>Address</h3>
+                            <p>Tehran, Iran</p>
+                        </div>
+                    </div>
+                </div><!-- End Info Item -->
+                
+                <div class="col-lg-4">
+                    <div class="info-item d-flex align-items-center">
+                        <i class="bi bi-telephone flex-shrink-0"></i>
+                        <div>
+                            <h3>Call me</h3>
+                            <p>0991 2776997</p>
+                        </div>
+                    </div>
+                </div><!-- End Info Item -->
+                
+                <div class="col-lg-4">
+                    <div class="info-item d-flex align-items-center">
+                        <i class="bi bi-envelope flex-shrink-0"></i>
+                        <div>
+                            <h3>Email me</h3>
+                            <p>alirezaanari119@gmail.com</p>
+                        </div>
+                    </div>
+                </div><!-- End Info Item -->
+            </div>
+        </div>
+        
+        <!-- Django Messages -->
+        {% if messages %}
+            <div class="messages-container mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <form method="post" class="contact-form" data-aos="fade-up" data-aos-delay="300" id="contact-form">
+            {% csrf_token %}
+            <div class="row gy-4">
+                <!-- Name Field -->
+                <div class="col-md-6">
+                    <label for="{{ form.name.id_for_label }}" class="form-label required-field">{{ form.name.label }}</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.name.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Email Field -->
+                <div class="col-md-6">
+                    <label for="{{ form.email.id_for_label }}" class="form-label required-field">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.email.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Phone Field -->
+                <div class="col-md-6">
+                    <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }}</label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.phone.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Category Field -->
+                <div class="col-md-6">
+                    <label for="{{ form.category.id_for_label }}" class="form-label">{{ form.category.label }}</label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.category.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Subject Field -->
+                <div class="col-md-12">
+                    <label for="{{ form.subject.id_for_label }}" class="form-label required-field">{{ form.subject.label }}</label>
+                    {{ form.subject }}
+                    {% if form.subject.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.subject.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Urgency Field -->
+                <div class="col-md-12">
+                    <label class="form-label">{{ form.urgency.label }}</label>
+                    <div class="urgency-options">
+                        {% for radio in form.urgency %}
+                            <div class="form-check">
+                                {{ radio.tag }}
+                                <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                    {{ radio.choice_label }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if form.urgency.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.urgency.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Message Field -->
+                <div class="col-md-12">
+                    <label for="{{ form.message.id_for_label }}" class="form-label required-field">{{ form.message.label }}</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.message.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Newsletter Subscription -->
+                <div class="col-md-12">
+                    <div class="form-check">
+                        {{ form.subscribe_newsletter }}
+                        <label class="form-check-label" for="{{ form.subscribe_newsletter.id_for_label }}">
+                            {{ form.subscribe_newsletter.label }}
+                        </label>
+                    </div>
+                    {% if form.subscribe_newsletter.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.subscribe_newsletter.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Consent Checkbox -->
+                <div class="col-md-12">
+                    <div class="form-check">
+                        {{ form.consent }}
+                        <label class="form-check-label required-field" for="{{ form.consent.id_for_label }}">
+                            {{ form.consent.label }}
+                        </label>
+                    </div>
+                    {% if form.consent.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.consent.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Submit Button and Messages -->
+                <div class="col-md-12 text-center">
+                    <div class="loading" style="display: none;">
+                        <i class="bi bi-arrow-clockwise"></i> Loading...
+                    </div>
+                    <div class="error-message" style="display: none;">
+                        <i class="bi bi-exclamation-triangle"></i> 
+                        <span class="error-text">Something went wrong. Please try again.</span>
+                    </div>
+                    <div class="sent-message" style="{% if success %}display: block;{% else %}display: none;{% endif %}">
+                        <i class="bi bi-check-circle"></i> 
+                        Your message has been sent successfully. Thank you!
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i> Send Message
+                    </button>
+                </div>
+            </div>
+        </form><!-- End Contact Form -->
+    </div>
+</section><!-- /Contact Section -->
+
+<style>
+    .contact {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    .section-title h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+    .section-title p {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+    .info-wrap {
+        background: white;
+        border-radius: 15px;
+        padding: 40px 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 40px;
+    }
+    .info-item {
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+    }
+    .info-item:hover {
+        transform: translateY(-5px);
+    }
+    .info-item i {
+        font-size: 2rem;
+        color: #007bff;
+        margin-right: 20px;
+    }
+    .info-item h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #2c3e50;
+    }
+    .info-item p {
+        margin: 0;
+        color: #6c757d;
+    }
+    .contact-form {
+        background: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+    }
+    .form-check-input {
+        margin-right: 10px;
+    }
+    .btn-primary {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+        border-radius: 25px;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,123,255,0.3);
+    }
+    .urgency-options {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    .form-check {
+        margin-right: 20px;
+    }
+    .loading, .error-message, .sent-message {
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 8px;
+    }
+    .loading {
+        background: #e3f2fd;
+        color: #1976d2;
+    }
+    .error-message {
+        background: #ffebee;
+        color: #c62828;
+    }
+    .sent-message {
+        background: #e8f5e8;
+        color: #2e7d32;
+    }
+    .required-field::after {
+        content: " *";
+        color: #dc3545;
+    }
+    .invalid-feedback {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    .messages-container .alert {
+        border-radius: 10px;
+        border: none;
+    }
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+    }
+    .alert-error, .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    .alert-warning {
+        background: #fff3cd;
+        color: #856404;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Form submission handling with AJAX
+    const form = document.getElementById('contact-form');
+    const loading = document.querySelector('.loading');
+    const errorMessage = document.querySelector('.error-message');
+    const sentMessage = document.querySelector('.sent-message');
+    const submitButton = document.querySelector('button[type="submit"]');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Hide all messages
+        loading.style.display = 'none';
+        errorMessage.style.display = 'none';
+        sentMessage.style.display = 'none';
+        
+        // Show loading
+        loading.style.display = 'block';
+        submitButton.disabled = true;
+        
+        // Submit form via AJAX
+        const formData = new FormData(form);
+        
+        fetch(form.action || window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            loading.style.display = 'none';
+            
+            if (data.success) {
+                sentMessage.style.display = 'block';
+                form.reset(); // Reset form on success
+            } else {
+                errorMessage.style.display = 'block';
+                if (data.message) {
+                    errorMessage.querySelector('.error-text').textContent = data.message;
+                }
+                
+                // Show field-specific errors
+                if (data.errors) {
+                    Object.keys(data.errors).forEach(field => {
+                        const fieldElement = form.querySelector(`[name="${field}"]`);
+                        if (fieldElement) {
+                            fieldElement.classList.add('is-invalid');
+                        }
+                    });
+                }
+            }
+            
+            submitButton.disabled = false;
+        })
+        .catch(error => {
+            loading.style.display = 'none';
+            errorMessage.style.display = 'block';
+            submitButton.disabled = false;
+            console.error('Error:', error);
+        });
+    });
+
+    // Form validation enhancements
+    document.querySelectorAll('.form-control, .form-select').forEach(field => {
+        field.addEventListener('blur', function() {
+            this.classList.remove('is-invalid', 'is-valid');
+            if (this.hasAttribute('required') && !this.value.trim()) {
+                this.classList.add('is-invalid');
+            } else if (this.value.trim()) {
+                this.classList.add('is-valid');
+            }
+        });
+        
+        field.addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+        });
+    });
+});
+</script>
