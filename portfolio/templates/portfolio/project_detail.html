@@ -1,0 +1,495 @@
+{% extends "portfolio/base.html" %}
+{% load static %}
+
+{% block portfolio_title %}{{ project.title }}{% endblock %}
+
+{% block head %}
+{{ block.super }}
+<style>
+    .project-hero {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+        margin-top: 80px;
+    }
+    
+    .project-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .project-hero-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        padding: 60px 0 40px;
+        color: white;
+    }
+    
+    .project-meta {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-top: -50px;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .meta-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .meta-item:last-child {
+        border-bottom: none;
+    }
+    
+    .meta-label {
+        font-weight: 600;
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    
+    .meta-value {
+        color: #2c3e50;
+        font-size: 1rem;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .btn-action {
+        flex: 1;
+        padding: 15px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .btn-demo-large {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-size: 1.1rem;
+    }
+    
+    .btn-demo-large:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+    
+    .btn-github {
+        background: #24292e;
+        color: white;
+    }
+    
+    .btn-github:hover {
+        background: #1a1e22;
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .btn-live {
+        background: #28a745;
+        color: white;
+    }
+    
+    .btn-live:hover {
+        background: #218838;
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .content-section {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #2c3e50;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .feature-list li {
+        padding: 15px 0;
+        padding-left: 40px;
+        position: relative;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .feature-list li:before {
+        content: "\F26A";
+        font-family: "bootstrap-icons";
+        position: absolute;
+        left: 0;
+        color: #667eea;
+        font-size: 1.5rem;
+    }
+    
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    
+    .gallery-item {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        cursor: pointer;
+    }
+    
+    .gallery-item:hover {
+        transform: scale(1.05);
+    }
+    
+    .gallery-item img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    .testimonial-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+    
+    .testimonial-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .testimonial-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .testimonial-info h5 {
+        margin: 0;
+        color: #2c3e50;
+    }
+    
+    .testimonial-info small {
+        color: #6c757d;
+    }
+    
+    .rating {
+        color: #ffc107;
+        font-size: 1.2rem;
+    }
+    
+    .related-projects {
+        background: #f8f9fa;
+        padding: 60px 0;
+    }
+    
+    .nav-project {
+        display: flex;
+        justify-content: space-between;
+        padding: 40px 0;
+        border-top: 2px solid #e9ecef;
+    }
+    
+    .nav-project-item {
+        flex: 1;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s;
+    }
+    
+    .nav-project-item:hover {
+        color: #667eea;
+    }
+    
+    .tech-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .tech-item {
+        background: #e9ecef;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .tech-item:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block portfolio_content %}
+
+<!-- Hero Section -->
+<section class="project-hero">
+    {% if project.banner_image %}
+    <img src="{{ project.banner_image.url }}" alt="{{ project.title }}">
+    {% elif project.thumbnail %}
+    <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
+    {% else %}
+    <img src="{% static 'img/default-project.jpg' %}" alt="{{ project.title }}">
+    {% endif %}
+    
+    <div class="project-hero-overlay">
+        <div class="container">
+            <div data-aos="fade-up">
+                {% if project.category %}
+                <span class="badge bg-light text-dark mb-3">{{ project.category.name }}</span>
+                {% endif %}
+                <h1>{{ project.title }}</h1>
+                {% if project.tagline %}
+                <p class="lead">{{ project.tagline }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Project Meta -->
+                <div class="project-meta" data-aos="fade-up">
+                    <div class="row">
+                        {% if project.client %}
+                        <div class="col-md-6">
+                            <div class="meta-item">
+                                <div class="meta-label">
+                                    <i class="bi bi-person"></i> Client
+                                </div>
+                                <div class="meta-value">{{ project.client }}</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if project.completion_date %}
+                        <div class="col-md-6">
+                            <div class="meta-item">
+                                <div class="meta-label">
+                                    <i class="bi bi-calendar"></i> Completed
+                                </div>
+                                <div class="meta-value">{{ project.completion_date|date:"F Y" }}</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if project.duration %}
+                        <div class="col-md-6">
+                            <div class="meta-item">
+                                <div class="meta-label">
+                                    <i class="bi bi-clock"></i> Duration
+                                </div>
+                                <div class="meta-value">{{ project.duration }}</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="col-md-6">
+                            <div class="meta-item">
+                                <div class="meta-label">
+                                    <i class="bi bi-eye"></i> Views
+                                </div>
+                                <div class="meta-value">{{ project.view_count }} views</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        {% if project.has_live_demo %}
+                        <a href="{% url 'demos:salon_booking:home' %}" class="btn-action btn-demo-large">
+                            <i class="bi bi-play-circle-fill"></i>
+                            <span>Try Live Demo</span>
+                        </a>
+                        {% endif %}
+                        
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" class="btn-action btn-github">
+                            <i class="bi bi-github"></i>
+                            <span>View Code</span>
+                        </a>
+                        {% endif %}
+                        
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" target="_blank" class="btn-action btn-live">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            <span>Live Site</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Description -->
+                <div class="content-section" data-aos="fade-up">
+                    <h2 class="section-title">About This Project</h2>
+                    <div class="content-text">
+                        {{ project.full_description|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Features -->
+                {% if project.key_features %}
+                <div class="content-section" data-aos="fade-up">
+                    <h2 class="section-title">Key Features</h2>
+                    <ul class="feature-list">
+                        {% for feature in project.get_features_list %}
+                        <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <!-- Challenges & Solutions -->
+                {% if project.challenges_solutions %}
+                <div class="content-section" data-aos="fade-up">
+                    <h2 class="section-title">Challenges & Solutions</h2>
+                    <div class="content-text">
+                        {{ project.challenges_solutions|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Gallery -->
+                {% if gallery_images %}
+                <div class="content-section" data-aos="fade-up">
+                    <h2 class="section-title">Project Gallery</h2>
+                    <div class="gallery-grid">
+                        {% for image in gallery_images %}
+                        <div class="gallery-item">
+                            <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Testimonials -->
+                {% if testimonials %}
+                <div class="content-section" data-aos="fade-up">
+                    <h2 class="section-title">Client Testimonials</h2>
+                    {% for testimonial in testimonials %}
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            {% if testimonial.client_photo %}
+                            <img src="{{ testimonial.client_photo.url }}" alt="{{ testimonial.client_name }}" class="testimonial-avatar">
+                            {% else %}
+                            <div class="testimonial-avatar bg-secondary d-flex align-items-center justify-content-center text-white">
+                                {{ testimonial.client_name|slice:":1" }}
+                            </div>
+                            {% endif %}
+                            <div class="testimonial-info">
+                                <h5>{{ testimonial.client_name }}</h5>
+                                <small>
+                                    {% if testimonial.client_position %}{{ testimonial.client_position }}{% endif %}
+                                    {% if testimonial.client_company %}at {{ testimonial.client_company }}{% endif %}
+                                </small>
+                            </div>
+                            <div class="ms-auto rating">
+                                {% for i in "12345"|slice:":testimonial.rating" %}★{% endfor %}
+                            </div>
+                        </div>
+                        <p class="mb-0">{{ testimonial.testimonial }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Technologies Used -->
+                <div class="project-meta mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="mb-3">Technologies Used</h4>
+                    <div class="tech-grid">
+                        {% for tech in project.technologies.all %}
+                        <span class="tech-item" style="background-color: {{ tech.color }}20; color: {{ tech.color }};">
+                            {{ tech.name }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Related Projects -->
+                {% if related_projects %}
+                <div class="project-meta" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="mb-3">Related Projects</h4>
+                    {% for related in related_projects %}
+                    <a href="{% url 'portfolio:project_detail' related.slug %}" class="d-block mb-3 text-decoration-none">
+                        <div class="card border-0 shadow-sm">
+                            {% if related.thumbnail %}
+                            <img src="{{ related.thumbnail.url }}" class="card-img-top" alt="{{ related.title }}" style="height: 150px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h6 class="card-title mb-0">{{ related.title }}</h6>
+                                <small class="text-muted">{{ related.category.name }}</small>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="nav-project">
+            {% if prev_project %}
+            <a href="{% url 'portfolio:project_detail' prev_project.slug %}" class="nav-project-item">
+                <div class="text-muted mb-2">
+                    <i class="bi bi-arrow-left"></i> Previous Project
+                </div>
+                <h5>{{ prev_project.title }}</h5>
+            </a>
+            {% else %}
+            <div></div>
+            {% endif %}
+            
+            {% if next_project %}
+            <a href="{% url 'portfolio:project_detail' next_project.slug %}" class="nav-project-item text-end">
+                <div class="text-muted mb-2">
+                    Next Project <i class="bi bi-arrow-right"></i>
+                </div>
+                <h5>{{ next_project.title }}</h5>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

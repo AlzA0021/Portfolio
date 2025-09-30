@@ -1,0 +1,268 @@
+{% extends "demos/salon_booking/base.html" %}
+{% load static %}
+
+{% block title %}Home - Salon Booking Demo{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 data-aos="fade-up">Find Your Perfect Beauty Salon</h1>
+        <p data-aos="fade-up" data-aos-delay="100">
+            Book appointments online with top-rated beauty salons in your area. 
+            Easy, fast, and convenient.
+        </p>
+        <div data-aos="fade-up" data-aos-delay="200">
+            <a href="{% url 'demos:salon_booking:salon_list' %}" class="btn btn-light btn-lg me-3">
+                <i class="bi bi-search"></i> Browse Salons
+            </a>
+            <a href="{% url 'demos:salon_booking:service_list' %}" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-scissors"></i> View Services
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="stats-section">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ total_salons }}+</span>
+                        <span class="stat-label">Beauty Salons</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ total_services }}+</span>
+                        <span class="stat-label">Services Available</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">Happy Customers</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">4.8★</span>
+                        <span class="stat-label">Average Rating</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Salons -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Featured Salons</h2>
+            <p class="section-subtitle">Top-rated salons near you</p>
+        </div>
+        
+        <div class="row">
+            {% for salon in featured_salons %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    {% if salon.banner_image %}
+                    <img src="{{ salon.banner_image.url }}" class="card-img-top" alt="{{ salon.salon_name }}">
+                    {% else %}
+                    <div class="card-img-top bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">{{ salon.salon_name }}</h5>
+                            {% with avg_score=salon.get_average_score %}
+                            {% if avg_score %}
+                            <span class="badge bg-warning text-dark">
+                                <i class="bi bi-star-fill"></i> {{ avg_score }}
+                            </span>
+                            {% endif %}
+                            {% endwith %}
+                        </div>
+                        
+                        {% if salon.address %}
+                        <p class="text-muted mb-2">
+                            <i class="bi bi-geo-alt"></i> 
+                            {{ salon.address|truncatewords:6 }}
+                        </p>
+                        {% endif %}
+                        
+                        <p class="card-text">{{ salon.description|truncatewords:15 }}</p>
+                        
+                        <div class="d-flex gap-2 mb-3">
+                            {% for service in salon.services.all|slice:":3" %}
+                            <span class="badge bg-light text-dark">{{ service.name }}</span>
+                            {% endfor %}
+                            {% if salon.services.count > 3 %}
+                            <span class="badge bg-light text-dark">+{{ salon.services.count|add:"-3" }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{% url 'demos:salon_booking:salon_detail' salon.id %}" class="btn btn-primary w-100">
+                            <i class="bi bi-eye"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'demos:salon_booking:salon_list' %}" class="btn btn-outline-primary btn-lg">
+                View All Salons <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Service Categories -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Popular Services</h2>
+            <p class="section-subtitle">Choose from a wide range of beauty services</p>
+        </div>
+        
+        <div class="row">
+            {% for category in service_categories %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {% if category.icon %}
+                            <i class="{{ category.icon }} display-4 text-primary"></i>
+                            {% else %}
+                            <i class="bi bi-scissors display-4 text-primary"></i>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="text-muted small">{{ category.services.count }} services</p>
+                        <a href="{% url 'demos:salon_booking:service_list' %}?category={{ category.slug }}" class="btn btn-sm btn-outline-primary">
+                            Explore
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Book your appointment in 3 easy steps</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <div class="mb-3">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                             style="width: 80px; height: 80px; font-size: 2rem; font-weight: 700;">
+                            1
+                        </div>
+                    </div>
+                    <h4>Choose a Salon</h4>
+                    <p class="text-muted">Browse through our list of verified salons and read reviews</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <div class="mb-3">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                             style="width: 80px; height: 80px; font-size: 2rem; font-weight: 700;">
+                            2
+                        </div>
+                    </div>
+                    <h4>Select Service & Time</h4>
+                    <p class="text-muted">Pick your desired service and choose an available time slot</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <div class="mb-3">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white" 
+                             style="width: 80px; height: 80px; font-size: 2rem; font-weight: 700;">
+                            3
+                        </div>
+                    </div>
+                    <h4>Confirm Booking</h4>
+                    <p class="text-muted">Complete your booking and receive instant confirmation</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'demos:salon_booking:salon_list' %}" class="btn btn-primary btn-lg">
+                Get Started Now <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Why Choose Us</h2>
+            <p class="section-subtitle">Benefits of using our platform</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100 border-0">
+                    <div class="card-body">
+                        <i class="bi bi-shield-check display-4 text-primary mb-3"></i>
+                        <h5>Verified Salons</h5>
+                        <p class="text-muted">All salons are verified and trusted</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100 border-0">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check display-4 text-primary mb-3"></i>
+                        <h5>Easy Booking</h5>
+                        <p class="text-muted">Book appointments in seconds</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100 border-0">
+                    <div class="card-body">
+                        <i class="bi bi-star display-4 text-primary mb-3"></i>
+                        <h5>Real Reviews</h5>
+                        <p class="text-muted">Read genuine customer reviews</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card text-center h-100 border-0">
+                    <div class="card-body">
+                        <i class="bi bi-credit-card display-4 text-primary mb-3"></i>
+                        <h5>Secure Payment</h5>
+                        <p class="text-muted">Safe and secure payment options</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

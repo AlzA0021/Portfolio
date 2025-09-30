@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "apps.home.apps.HomeConfig",
     "apps.portfolio.apps.PortfolioConfig",  # ✅ اپ Portfolio
     "apps.demos.apps.DemosConfig",  # ✅ اپ Demo
+    "apps.demos.salon_booking.apps.SalonBookingConfig",  # ✅ اپ Salon Booking
     # Third-party
     "django_render_partial",
 ]

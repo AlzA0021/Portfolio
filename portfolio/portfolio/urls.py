@@ -24,7 +24,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("apps.home.urls"), name="home"),
     path("portfolio/", include("apps.portfolio.urls"), name="portfolio"),
-    path(
-        "salon-booking/", include("apps.demos.salon_booking.urls"), name="salon_booking"
-    ),
+    path("portfolio/", include("apps.portfolio.urls", namespace="portfolio")),  # ← جدید
+    path("demo/", include("apps.demos.urls", namespace="demos")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
