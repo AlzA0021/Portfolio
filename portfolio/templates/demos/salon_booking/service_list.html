@@ -1,0 +1,271 @@
+{% extends "demos/salon_booking/base.html" %}
+{% load static %}
+
+{% block title %}Services - Salon Booking Demo{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        color: white;
+        padding: 60px 0 40px;
+        margin-bottom: 40px;
+    }
+    
+    .service-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .service-image {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .service-content {
+        padding: 25px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .service-category {
+        color: var(--primary-color);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+    
+    .service-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 15px;
+    }
+    
+    .service-description {
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        flex: 1;
+    }
+    
+    .service-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 1px solid #e5e7eb;
+        margin-top: auto;
+    }
+    
+    .service-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    
+    .service-duration {
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+    
+    .category-filter {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+    
+    .category-btn {
+        padding: 12px 25px;
+        border: 2px solid #e5e7eb;
+        background: white;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 500;
+        text-decoration: none;
+        color: #1f2937;
+    }
+    
+    .category-btn:hover, .category-btn.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+    
+    .salon-count {
+        background: #f3f4f6;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-top: 10px;
+        display: inline-block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Our Services</h1>
+        <p class="lead mb-0">Professional beauty services at your fingertips</p>
+    </div>
+</div>
+
+<!-- Category Filter -->
+<section class="py-4">
+    <div class="container">
+        <div class="category-filter">
+            <a href="{% url 'salon_booking:service_list' %}" 
+               class="category-btn {% if not current_category %}active{% endif %}">
+                All Services
+            </a>
+            {% for category in categories %}
+            <a href="?category={{ category.slug }}" 
+               class="category-btn {% if current_category == category.slug %}active{% endif %}">
+                {% if category.icon %}<i class="{{ category.icon }}"></i>{% endif %}
+                {{ category.name }}
+            </a>
+            {% endfor %}
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-6">
+                <form method="get" class="input-group input-group-lg">
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Search services..." 
+                           value="{{ search_query }}">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-5">
+    <div class="container">
+        {% if services %}
+        <div class="row">
+            {% for service in services %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="service-card">
+                    {% if service.image %}
+                    <img src="{{ service.image.url }}" class="service-image" alt="{{ service.name }}">
+                    {% else %}
+                    <div class="service-image"></div>
+                    {% endif %}
+                    
+                    <div class="service-content">
+                        {% if service.category %}
+                        <div class="service-category">
+                            {{ service.category.name }}
+                        </div>
+                        {% endif %}
+                        
+                        <h3 class="service-title">{{ service.name }}</h3>
+                        
+                        <p class="service-description">
+                            {{ service.description|default:"Professional service"|truncatewords:12 }}
+                        </p>
+                        
+                        <div class="salon-count">
+                            <i class="bi bi-shop"></i> Available at {{ service.salons.count }} salon{{ service.salons.count|pluralize }}
+                        </div>
+                        
+                        <div class="service-meta">
+                            <div>
+                                <div class="service-price">{{ service.base_price|floatformat:0 }}K</div>
+                                <div class="service-duration">
+                                    <i class="bi bi-clock"></i> {{ service.duration_minutes }} min
+                                </div>
+                            </div>
+                            <a href="{% url 'salon_booking:service_detail' service.id %}" 
+                               class="btn btn-primary">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Service pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">
+                        Previous
+                    </a>
+                </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">{{ page_obj.number }}</span>
+                </li>
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_category %}&category={{ current_category }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">
+                        Next
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-5">
+            <i class="bi bi-scissors display-1 text-muted"></i>
+            <h3 class="mt-4">No Services Found</h3>
+            <p class="text-muted">Try adjusting your search or browse all services</p>
+            <a href="{% url 'salon_booking:service_list' %}" class="btn btn-primary mt-3">
+                View All Services
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Book?</h2>
+        <p class="lead text-muted mb-4">Find a salon near you and book your appointment today</p>
+        <a href="{% url 'salon_booking:salon_list' %}" class="btn btn-primary btn-lg">
+            <i class="bi bi-shop"></i> Browse Salons
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -47,3 +47,252 @@
         height: 200px;
         object-fit: cover;
         width: 100%;
+    }
+    
+    .salon-info {
+        padding: 20px;
+    }
+    
+    .rating-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    
+    .view-count {
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Browse Salons</h1>
+        <p class="lead mb-0">Find the perfect beauty salon for your needs</p>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container mb-5">
+    <div class="row">
+        <!-- Sidebar Filters -->
+        <div class="col-lg-3 mb-4">
+            <div class="filter-sidebar">
+                <h5 class="filter-title">
+                    <i class="bi bi-funnel"></i> Filters
+                </h5>
+                
+                <form method="get" id="filterForm">
+                    <!-- Search -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-search"></i> Search
+                        </label>
+                        <input type="text" name="search" class="form-control" 
+                               placeholder="Search salons..." 
+                               value="{{ search_query }}">
+                    </div>
+                    
+                    <!-- Zone Filter -->
+                    {% if zones %}
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-geo-alt"></i> Zone
+                        </label>
+                        <select name="zone" class="form-select">
+                            <option value="">All Zones</option>
+                            {% for zone in zones %}
+                            <option value="{{ zone }}" {% if current_zone == zone|stringformat:"s" %}selected{% endif %}>
+                                Zone {{ zone }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Service Filter -->
+                    {% if services %}
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-scissors"></i> Service
+                        </label>
+                        <select name="service" class="form-select">
+                            <option value="">All Services</option>
+                            {% for service in services %}
+                            <option value="{{ service.id }}" {% if current_service == service.id|stringformat:"s" %}selected{% endif %}>
+                                {{ service.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Sort -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-sort-down"></i> Sort By
+                        </label>
+                        <select name="sort" class="form-select">
+                            <option value="-view_count" {% if current_sort == '-view_count' %}selected{% endif %}>Most Popular</option>
+                            <option value="rating" {% if current_sort == 'rating' %}selected{% endif %}>Highest Rated</option>
+                            <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Name (A-Z)</option>
+                            <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Newest</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-filter"></i> Apply Filters
+                        </button>
+                        <a href="{% url 'salon_booking:salon_list' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-circle"></i> Clear All
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Salons List -->
+        <div class="col-lg-9">
+            <!-- Results Info -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mb-0">
+                    {% if salons %}
+                        Showing {{ salons|length }} salon{{ salons|length|pluralize }}
+                    {% else %}
+                        No salons found
+                    {% endif %}
+                </h5>
+                
+                {% if search_query or current_zone or current_service %}
+                <a href="{% url 'salon_booking:salon_list' %}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-x"></i> Clear Filters
+                </a>
+                {% endif %}
+            </div>
+            
+            <!-- Salons Grid -->
+            {% if salons %}
+            <div class="row">
+                {% for salon in salons %}
+                <div class="col-md-6 mb-4">
+                    <div class="salon-card">
+                        <div class="position-relative">
+                            {% if salon.banner_image %}
+                            <img src="{{ salon.banner_image.url }}" class="salon-image" alt="{{ salon.salon_name }}">
+                            {% else %}
+                            <div class="salon-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                            {% endif %}
+                            
+                            {% with avg_score=salon.get_average_score %}
+                            {% if avg_score %}
+                            <span class="rating-badge text-warning">
+                                <i class="bi bi-star-fill"></i> {{ avg_score }}
+                            </span>
+                            {% endif %}
+                            {% endwith %}
+                        </div>
+                        
+                        <div class="salon-info">
+                            <h4 class="mb-2">{{ salon.salon_name }}</h4>
+                            
+                            {% if salon.address %}
+                            <p class="text-muted mb-2">
+                                <i class="bi bi-geo-alt"></i> {{ salon.address|truncatewords:8 }}
+                            </p>
+                            {% endif %}
+                            
+                            {% if salon.phone_number %}
+                            <p class="text-muted mb-2">
+                                <i class="bi bi-telephone"></i> {{ salon.phone_number }}
+                            </p>
+                            {% endif %}
+                            
+                            <p class="mb-3">{{ salon.description|truncatewords:15 }}</p>
+                            
+                            <!-- Services Tags -->
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                {% for service in salon.services.all|slice:":3" %}
+                                <span class="badge bg-light text-dark">{{ service.name }}</span>
+                                {% endfor %}
+                                {% if salon.services.count > 3 %}
+                                <span class="badge bg-secondary">+{{ salon.services.count|add:"-3" }} more</span>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Footer -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="view-count">
+                                    <i class="bi bi-eye"></i> {{ salon.view_count }} views
+                                </span>
+                                <a href="{% url 'salon_booking:salon_detail' salon.id %}" class="btn btn-primary">
+                                    View Details <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav aria-label="Salon pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if current_zone %}&zone={{ current_zone }}{% endif %}">
+                            First
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_zone %}&zone={{ current_zone }}{% endif %}">
+                            Previous
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_obj.number }}</span>
+                    </li>
+                    
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_zone %}&zone={{ current_zone }}{% endif %}">
+                            Next
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_zone %}&zone={{ current_zone }}{% endif %}">
+                            Last
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            
+            {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <i class="bi bi-search display-1 text-muted"></i>
+                <h3 class="mt-4">No Salons Found</h3>
+                <p class="text-muted">Try adjusting your search or filters</p>
+                <a href="{% url 'salon_booking:salon_list' %}" class="btn btn-primary mt-3">
+                    View All Salons
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
