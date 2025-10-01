@@ -11,22 +11,44 @@
         height: 500px;
         overflow: hidden;
         margin-top: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
     
     .project-hero img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        opacity: 0.3;
     }
     
     .project-hero-overlay {
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        padding: 60px 0 40px;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        padding: 60px 0;
         color: white;
+    }
+    
+    .breadcrumb-custom {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+    
+    .breadcrumb-custom a {
+        color: white;
+        text-decoration: none;
+        opacity: 0.8;
+    }
+    
+    .breadcrumb-custom a:hover {
+        opacity: 1;
     }
     
     .project-meta {
@@ -53,22 +75,28 @@
         color: #6c757d;
         font-size: 0.9rem;
         margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
     
     .meta-value {
         color: #2c3e50;
         font-size: 1rem;
+        font-weight: 500;
     }
     
     .action-buttons {
         display: flex;
         gap: 15px;
         margin-top: 20px;
+        flex-wrap: wrap;
     }
     
     .btn-action {
         flex: 1;
-        padding: 15px;
+        min-width: 150px;
+        padding: 15px 25px;
         border-radius: 10px;
         font-weight: 600;
         text-align: center;
@@ -78,17 +106,18 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        border: none;
     }
     
     .btn-demo-large {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         color: white;
         font-size: 1.1rem;
     }
     
     .btn-demo-large:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
         color: white;
     }
     
@@ -104,12 +133,12 @@
     }
     
     .btn-live {
-        background: #28a745;
+        background: #667eea;
         color: white;
     }
     
     .btn-live:hover {
-        background: #218838;
+        background: #5568d3;
         color: white;
         transform: translateY(-3px);
     }
@@ -123,6 +152,19 @@
         font-weight: 700;
         margin-bottom: 30px;
         color: #2c3e50;
+        position: relative;
+        padding-bottom: 15px;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 2px;
     }
     
     .feature-list {
@@ -131,10 +173,14 @@
     }
     
     .feature-list li {
-        padding: 15px 0;
-        padding-left: 40px;
+        padding: 15px 0 15px 50px;
         position: relative;
         border-bottom: 1px solid #e9ecef;
+        font-size: 1.05rem;
+    }
+    
+    .feature-list li:last-child {
+        border-bottom: none;
     }
     
     .feature-list li:before {
@@ -142,14 +188,23 @@
         font-family: "bootstrap-icons";
         position: absolute;
         left: 0;
+        top: 15px;
         color: #667eea;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        background: #f0f0ff;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
     }
     
     .gallery-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 20px;
+        margin-top: 30px;
     }
     
     .gallery-item {
@@ -158,6 +213,7 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         transition: transform 0.3s;
         cursor: pointer;
+        position: relative;
     }
     
     .gallery-item:hover {
@@ -168,6 +224,18 @@
         width: 100%;
         height: 250px;
         object-fit: cover;
+        display: block;
+    }
+    
+    .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        color: white;
+        padding: 20px 15px 10px;
+        font-size: 0.9rem;
     }
     
     .testimonial-card {
@@ -176,6 +244,7 @@
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         margin-bottom: 20px;
+        border-left: 4px solid #667eea;
     }
     
     .testimonial-header {
@@ -192,9 +261,23 @@
         object-fit: cover;
     }
     
+    .avatar-placeholder {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    
     .testimonial-info h5 {
         margin: 0;
         color: #2c3e50;
+        font-weight: 600;
     }
     
     .testimonial-info small {
@@ -211,10 +294,37 @@
         padding: 60px 0;
     }
     
+    .related-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    
+    .related-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .related-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+    
+    .related-card-body {
+        padding: 20px;
+    }
+    
     .nav-project {
         display: flex;
         justify-content: space-between;
         padding: 40px 0;
+        margin-top: 40px;
         border-top: 2px solid #e9ecef;
     }
     
@@ -223,9 +333,12 @@
         text-decoration: none;
         color: inherit;
         transition: all 0.3s;
+        padding: 20px;
+        border-radius: 10px;
     }
     
     .nav-project-item:hover {
+        background: #f8f9fa;
         color: #667eea;
     }
     
@@ -241,12 +354,67 @@
         border-radius: 20px;
         font-weight: 500;
         transition: all 0.3s;
+        border: 2px solid transparent;
     }
     
     .tech-item:hover {
         background: #667eea;
         color: white;
         transform: translateY(-2px);
+        border-color: #667eea;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .status-completed {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-progress {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-demo {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+    
+    .project-stats-sidebar {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .stat-row:last-child {
+        border-bottom: none;
+    }
+    
+    .challenge-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+        border-left: 4px solid #667eea;
     }
 </style>
 {% endblock %}
@@ -259,19 +427,38 @@
     <img src="{{ project.banner_image.url }}" alt="{{ project.title }}">
     {% elif project.thumbnail %}
     <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
-    {% else %}
-    <img src="{% static 'img/default-project.jpg' %}" alt="{{ project.title }}">
     {% endif %}
     
     <div class="project-hero-overlay">
         <div class="container">
             <div data-aos="fade-up">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb-custom">
+                    <a href="{% url 'home:index' %}">Home</a> / 
+                    <a href="{% url 'portfolio:project_list' %}">Portfolio</a> / 
+                    <span>{{ project.title }}</span>
+                </nav>
+                
                 {% if project.category %}
-                <span class="badge bg-light text-dark mb-3">{{ project.category.name }}</span>
+                <div class="mb-3">
+                    <span class="badge bg-light text-dark" style="font-size: 1rem; padding: 8px 15px;">
+                        <i class="{{ project.category.icon_class|default:'bi bi-folder' }}"></i>
+                        {{ project.category.name }}
+                    </span>
+                    <span class="status-badge status-{{ project.status }}">
+                        {{ project.get_status_display }}
+                    </span>
+                    {% if project.is_featured %}
+                    <span class="badge bg-warning text-dark" style="font-size: 1rem; padding: 8px 15px;">
+                        <i class="bi bi-star-fill"></i> Featured
+                    </span>
+                    {% endif %}
+                </div>
                 {% endif %}
-                <h1>{{ project.title }}</h1>
+                
+                <h1 class="display-4 fw-bold">{{ project.title }}</h1>
                 {% if project.tagline %}
-                <p class="lead">{{ project.tagline }}</p>
+                <p class="lead" style="font-size: 1.5rem;">{{ project.tagline }}</p>
                 {% endif %}
             </div>
         </div>
@@ -288,10 +475,10 @@
                 <div class="project-meta" data-aos="fade-up">
                     <div class="row">
                         {% if project.client %}
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-lg-3">
                             <div class="meta-item">
                                 <div class="meta-label">
-                                    <i class="bi bi-person"></i> Client
+                                    <i class="bi bi-person-circle"></i> Client
                                 </div>
                                 <div class="meta-value">{{ project.client }}</div>
                             </div>
@@ -299,10 +486,10 @@
                         {% endif %}
                         
                         {% if project.completion_date %}
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-lg-3">
                             <div class="meta-item">
                                 <div class="meta-label">
-                                    <i class="bi bi-calendar"></i> Completed
+                                    <i class="bi bi-calendar-check"></i> Completed
                                 </div>
                                 <div class="meta-value">{{ project.completion_date|date:"F Y" }}</div>
                             </div>
@@ -310,22 +497,22 @@
                         {% endif %}
                         
                         {% if project.duration %}
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-lg-3">
                             <div class="meta-item">
                                 <div class="meta-label">
-                                    <i class="bi bi-clock"></i> Duration
+                                    <i class="bi bi-clock-history"></i> Duration
                                 </div>
                                 <div class="meta-value">{{ project.duration }}</div>
                             </div>
                         </div>
                         {% endif %}
                         
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-lg-3">
                             <div class="meta-item">
                                 <div class="meta-label">
                                     <i class="bi bi-eye"></i> Views
                                 </div>
-                                <div class="meta-value">{{ project.view_count }} views</div>
+                                <div class="meta-value">{{ project.view_count }}</div>
                             </div>
                         </div>
                     </div>
@@ -333,7 +520,7 @@
                     <!-- Action Buttons -->
                     <div class="action-buttons">
                         {% if project.has_live_demo %}
-                        <a href="{% url 'demos:salon_booking:home' %}" class="btn-action btn-demo-large">
+                        <a href="{% url 'salon_booking:home' %}" target="_blank" class="btn-action btn-demo-large">
                             <i class="bi bi-play-circle-fill"></i>
                             <span>Try Live Demo</span>
                         </a>
@@ -358,12 +545,12 @@
                 <!-- Description -->
                 <div class="content-section" data-aos="fade-up">
                     <h2 class="section-title">About This Project</h2>
-                    <div class="content-text">
+                    <div class="content-text" style="font-size: 1.1rem; line-height: 1.8; color: #4a5568;">
                         {{ project.full_description|linebreaks }}
                     </div>
                 </div>
                 
-                <!-- Features -->
+                <!-- Key Features -->
                 {% if project.key_features %}
                 <div class="content-section" data-aos="fade-up">
                     <h2 class="section-title">Key Features</h2>
@@ -379,8 +566,10 @@
                 {% if project.challenges_solutions %}
                 <div class="content-section" data-aos="fade-up">
                     <h2 class="section-title">Challenges & Solutions</h2>
-                    <div class="content-text">
-                        {{ project.challenges_solutions|linebreaks }}
+                    <div class="challenge-section">
+                        <div style="font-size: 1.05rem; line-height: 1.8; color: #4a5568;">
+                            {{ project.challenges_solutions|linebreaks }}
+                        </div>
                     </div>
                 </div>
                 {% endif %}
@@ -391,8 +580,11 @@
                     <h2 class="section-title">Project Gallery</h2>
                     <div class="gallery-grid">
                         {% for image in gallery_images %}
-                        <div class="gallery-item">
+                        <div class="gallery-item" onclick="openGalleryModal('{{ image.image.url }}', '{{ image.caption|escapejs }}')">
                             <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+                            {% if image.caption %}
+                            <div class="gallery-caption">{{ image.caption }}</div>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     </div>
@@ -409,22 +601,26 @@
                             {% if testimonial.client_photo %}
                             <img src="{{ testimonial.client_photo.url }}" alt="{{ testimonial.client_name }}" class="testimonial-avatar">
                             {% else %}
-                            <div class="testimonial-avatar bg-secondary d-flex align-items-center justify-content-center text-white">
+                            <div class="avatar-placeholder">
                                 {{ testimonial.client_name|slice:":1" }}
                             </div>
                             {% endif %}
-                            <div class="testimonial-info">
+                            
+                            <div class="testimonial-info flex-grow-1">
                                 <h5>{{ testimonial.client_name }}</h5>
                                 <small>
                                     {% if testimonial.client_position %}{{ testimonial.client_position }}{% endif %}
                                     {% if testimonial.client_company %}at {{ testimonial.client_company }}{% endif %}
                                 </small>
                             </div>
-                            <div class="ms-auto rating">
+                            
+                            <div class="rating">
                                 {% for i in "12345"|slice:":testimonial.rating" %}★{% endfor %}
                             </div>
                         </div>
-                        <p class="mb-0">{{ testimonial.testimonial }}</p>
+                        <p class="mb-0" style="font-style: italic; color: #4a5568;">
+                            "{{ testimonial.testimonial }}"
+                        </p>
                     </div>
                     {% endfor %}
                 </div>
@@ -433,32 +629,110 @@
             
             <!-- Sidebar -->
             <div class="col-lg-4">
+                <!-- Project Info -->
+                <div class="project-stats-sidebar" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="mb-4">
+                        <i class="bi bi-info-circle"></i> Project Info
+                    </h4>
+                    
+                    <div class="stat-row">
+                        <span class="text-muted">Status</span>
+                        <span class="status-badge status-{{ project.status }}">
+                            {{ project.get_status_display }}
+                        </span>
+                    </div>
+                    
+                    {% if project.completion_date %}
+                    <div class="stat-row">
+                        <span class="text-muted">Completed</span>
+                        <strong>{{ project.completion_date|date:"M Y" }}</strong>
+                    </div>
+                    {% endif %}
+                    
+                    {% if project.duration %}
+                    <div class="stat-row">
+                        <span class="text-muted">Duration</span>
+                        <strong>{{ project.duration }}</strong>
+                    </div>
+                    {% endif %}
+                    
+                    {% if project.client %}
+                    <div class="stat-row">
+                        <span class="text-muted">Client</span>
+                        <strong>{{ project.client }}</strong>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="stat-row">
+                        <span class="text-muted">Views</span>
+                        <strong>{{ project.view_count }}</strong>
+                    </div>
+                    
+                    <div class="stat-row">
+                        <span class="text-muted">Category</span>
+                        <strong>{{ project.category.name|default:"General" }}</strong>
+                    </div>
+                </div>
+                
                 <!-- Technologies Used -->
-                <div class="project-meta mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <h4 class="mb-3">Technologies Used</h4>
+                <div class="project-stats-sidebar" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="mb-4">
+                        <i class="bi bi-code-slash"></i> Technologies
+                    </h4>
                     <div class="tech-grid">
                         {% for tech in project.technologies.all %}
-                        <span class="tech-item" style="background-color: {{ tech.color }}20; color: {{ tech.color }};">
+                        <span class="tech-item" style="background-color: {{ tech.color }}20; color: {{ tech.color }}; border-color: {{ tech.color }};">
                             {{ tech.name }}
                         </span>
                         {% endfor %}
                     </div>
                 </div>
                 
+                <!-- Quick Actions -->
+                <div class="project-stats-sidebar" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="mb-4">
+                        <i class="bi bi-lightning"></i> Quick Actions
+                    </h4>
+                    
+                    {% if project.has_live_demo %}
+                    <a href="{% url 'salon_booking:home' %}" target="_blank" class="btn btn-success w-100 mb-2">
+                        <i class="bi bi-play-circle"></i> Try Demo
+                    </a>
+                    {% endif %}
+                    
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="btn btn-dark w-100 mb-2">
+                        <i class="bi bi-github"></i> View Code
+                    </a>
+                    {% endif %}
+                    
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" target="_blank" class="btn btn-primary w-100 mb-2">
+                        <i class="bi bi-box-arrow-up-right"></i> Live Site
+                    </a>
+                    {% endif %}
+                    
+                    <a href="{% url 'home:index' %}#contact" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-envelope"></i> Discuss Similar Project
+                    </a>
+                </div>
+                
                 <!-- Related Projects -->
                 {% if related_projects %}
-                <div class="project-meta" data-aos="fade-up" data-aos-delay="200">
-                    <h4 class="mb-3">Related Projects</h4>
+                <div class="project-stats-sidebar" data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="mb-4">
+                        <i class="bi bi-collection"></i> Related Projects
+                    </h4>
                     {% for related in related_projects %}
-                    <a href="{% url 'portfolio:project_detail' related.slug %}" class="d-block mb-3 text-decoration-none">
-                        <div class="card border-0 shadow-sm">
-                            {% if related.thumbnail %}
-                            <img src="{{ related.thumbnail.url }}" class="card-img-top" alt="{{ related.title }}" style="height: 150px; object-fit: cover;">
-                            {% endif %}
-                            <div class="card-body">
-                                <h6 class="card-title mb-0">{{ related.title }}</h6>
-                                <small class="text-muted">{{ related.category.name }}</small>
-                            </div>
+                    <a href="{% url 'portfolio:project_detail' related.slug %}" class="related-card mb-3">
+                        {% if related.thumbnail %}
+                        <img src="{{ related.thumbnail.url }}" alt="{{ related.title }}">
+                        {% else %}
+                        <div style="width:100%;height:150px;background:linear-gradient(135deg,#667eea,#764ba2);"></div>
+                        {% endif %}
+                        <div class="related-card-body">
+                            <h6 class="mb-1">{{ related.title }}</h6>
+                            <small class="text-muted">{{ related.category.name }}</small>
                         </div>
                     </a>
                     {% endfor %}
@@ -491,5 +765,90 @@
         </div>
     </div>
 </section>
+
+<!-- Related Projects Section -->
+{% if related_projects %}
+<section class="related-projects">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title" style="display: inline-block;">More Projects You Might Like</h2>
+        </div>
+        <div class="row">
+            {% for related in related_projects %}
+            <div class="col-md-4 mb-4">
+                <a href="{% url 'portfolio:project_detail' related.slug %}" class="related-card">
+                    {% if related.thumbnail %}
+                    <img src="{{ related.thumbnail.url }}" alt="{{ related.title }}">
+                    {% else %}
+                    <div style="width:100%;height:200px;background:linear-gradient(135deg,#667eea,#764ba2);"></div>
+                    {% endif %}
+                    <div class="related-card-body">
+                        <small class="text-muted">{{ related.category.name }}</small>
+                        <h5 class="mt-2">{{ related.title }}</h5>
+                        <p class="text-muted mb-0 small">{{ related.short_description|truncatewords:12 }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-3">Interested in Working Together?</h2>
+        <p class="lead text-muted mb-4">Let's discuss how I can help bring your project to life</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'home:index' %}#contact" class="btn btn-primary btn-lg">
+                <i class="bi bi-envelope"></i> Get in Touch
+            </a>
+            <a href="{% url 'portfolio:project_list' %}" class="btn btn-outline-primary btn-lg">
+                <i class="bi bi-grid"></i> View All Projects
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Modal -->
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0 position-relative">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" 
+                        data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
+                <img src="" alt="" id="galleryModalImage" class="w-100 rounded">
+                <div id="galleryModalCaption" class="text-white text-center mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Gallery Modal
+function openGalleryModal(imageSrc, caption) {
+    document.getElementById('galleryModalImage').src = imageSrc;
+    document.getElementById('galleryModalCaption').textContent = caption;
+    const modal = new bootstrap.Modal(document.getElementById('galleryModal'));
+    modal.show();
+}
+
+// Smooth scroll for anchor links
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
 
 {% endblock %}
