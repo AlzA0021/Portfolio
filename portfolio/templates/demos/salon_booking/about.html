@@ -1,0 +1,299 @@
+{% extends "demos/salon_booking/base.html" %}
+{% load static %}
+
+{% block title %}About This Demo - Salon Booking{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center">
+        <span class="badge bg-white text-primary mb-3" style="font-size: 1rem; padding: 10px 20px;">
+            <i class="bi bi-info-circle"></i> DEMO PROJECT
+        </span>
+        <h1 class="display-3 fw-bold mb-3">About This Demo</h1>
+        <p class="lead mb-4">
+            A showcase of a comprehensive online booking platform for beauty salons
+        </p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-5">
+    <div class="container">
+        <!-- Project Overview -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <h2 class="mb-4">Project Overview</h2>
+                        <p class="lead">
+                            This is a demonstration of a full-featured online booking system specifically designed 
+                            for beauty salons. The platform enables customers to browse salons, view services, 
+                            check availability, and book appointments seamlessly.
+                        </p>
+                        <p>
+                            Built as part of my professional portfolio, this project showcases my expertise in 
+                            developing complex web applications with Django, focusing on real-world business problems 
+                            and user-friendly solutions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Features -->
+        <div class="mb-5">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Key Features</h2>
+                <p class="text-muted">What makes this platform special</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-calendar-check display-3 text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Online Booking System</h5>
+                            <p class="card-text text-muted">
+                                Real-time availability checking and instant appointment confirmation
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-shop display-3 text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Multi-Salon Support</h5>
+                            <p class="card-text text-muted">
+                                Platform supports multiple salons with individual profiles and services
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-scissors display-3 text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Service Management</h5>
+                            <p class="card-text text-muted">
+                                Comprehensive service catalog with pricing and duration management
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-star display-3 text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Review System</h5>
+                            <p class="card-text text-muted">
+                                Customer reviews and ratings to help users make informed decisions
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-search display-3 text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Advanced Search</h5>
+                            <p class="card-text text-muted">
+                                Filter by location, services, ratings, and more
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-phone display-3 text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Responsive Design</h5>
+                            <p class="card-text text-muted">
+                                Fully responsive interface that works on all devices
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Technical Stack -->
+        <div class="mb-5">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Technical Stack</h2>
+                <p class="text-muted">Technologies used in this project</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-4">
+                                <i class="bi bi-code-slash text-primary"></i> Backend
+                            </h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>Django 5.x</strong> - Web framework
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>PostgreSQL</strong> - Database with PostGIS
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>Django REST Framework</strong> - API development
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>Celery</strong> - Async task processing
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>Redis</strong> - Caching layer
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-4">
+                                <i class="bi bi-palette text-primary"></i> Frontend
+                            </h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>Bootstrap 5</strong> - UI framework
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>JavaScript ES6+</strong> - Interactive features
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>HTML5 & CSS3</strong> - Modern markup
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>AJAX</strong> - Seamless user experience
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                    <strong>Responsive Design</strong> - Mobile-first
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Implementation Highlights -->
+        <div class="mb-5">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <h2 class="mb-4">Implementation Highlights</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="bi bi-database"></i> Database Design
+                            </h5>
+                            <p class="text-muted">
+                                Normalized database schema with optimized queries, indexes, 
+                                and relationships. Implements PostGIS for location-based features.
+                            </p>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="bi bi-shield-check"></i> Security
+                            </h5>
+                            <p class="text-muted">
+                                CSRF protection, SQL injection prevention, XSS protection, 
+                                secure password hashing, and proper authentication/authorization.
+                            </p>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="bi bi-speedometer2"></i> Performance
+                            </h5>
+                            <p class="text-muted">
+                                Query optimization with select_related and prefetch_related, 
+                                Redis caching, database indexing, and lazy loading.
+                            </p>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="bi bi-phone"></i> User Experience
+                            </h5>
+                            <p class="text-muted">
+                                Intuitive interface, responsive design, smooth animations, 
+                                real-time feedback, and accessible to all users.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Demo Note -->
+        <div class="alert alert-info border-0 shadow-sm">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-info-circle-fill fs-3 me-3"></i>
+                <div>
+                    <h5 class="alert-heading mb-2">Note About This Demo</h5>
+                    <p class="mb-0">
+                        This is a simplified demo version showcasing the core functionality. 
+                        The full implementation includes additional features such as payment integration, 
+                        email notifications, SMS alerts, admin dashboard with analytics, and more.
+                        All data shown is sample data for demonstration purposes.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="text-center mt-5">
+            <h3 class="mb-4">Interested in the Full Project?</h3>
+            <p class="text-muted mb-4">View the complete project details in my portfolio</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="{% url 'portfolio:project_list' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-briefcase"></i> View Portfolio
+                </a>
+                <a href="{% url 'salon_booking:salon_list' %}" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-shop"></i> Explore Demo
+                </a>
+                <a href="{% url 'home:index' %}#contact" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-envelope"></i> Contact Me
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

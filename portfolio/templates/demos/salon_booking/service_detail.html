@@ -1,0 +1,292 @@
+{% extends "demos/salon_booking/base.html" %}
+{% load static %}
+
+{% block title %}{{ service.name }} - Salon Booking Demo{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        padding: 80px 0 60px;
+        color: white;
+    }
+    
+    .service-info-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-top: -40px;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .price-badge {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 15px 30px;
+        border-radius: 15px;
+        display: inline-block;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    
+    .duration-badge {
+        background: #f3f4f6;
+        padding: 10px 20px;
+        border-radius: 10px;
+        color: #1f2937;
+        font-weight: 600;
+    }
+    
+    .salon-card {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.3s;
+        margin-bottom: 20px;
+    }
+    
+    .salon-card:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 5px 20px rgba(99, 102, 241, 0.15);
+    }
+    
+    .salon-card-header {
+        display: flex;
+        gap: 20px;
+        align-items: start;
+    }
+    
+    .salon-image-small {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+    
+    .related-service-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    
+    .related-service-card:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="service-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                {% if service.category %}
+                <span class="badge bg-white text-primary mb-3">
+                    {{ service.category.name }}
+                </span>
+                {% endif %}
+                <h1 class="display-4 fw-bold mb-3">{{ service.name }}</h1>
+                <p class="lead mb-0">
+                    {{ service.description|default:"Professional beauty service" }}
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                {% if service.image %}
+                <img src="{{ service.image.url }}" alt="{{ service.name }}" 
+                     style="max-width: 200px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Info -->
+<section class="py-5">
+    <div class="container">
+        <div class="service-info-card mb-5">
+            <div class="row align-items-center">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="text-center text-md-start">
+                        <small class="text-muted d-block mb-2">Starting from</small>
+                        <div class="price-badge">{{ service.base_price|floatformat:0 }} تومان</div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="text-center">
+                        <small class="text-muted d-block mb-2">Duration</small>
+                        <div class="duration-badge">
+                            <i class="bi bi-clock"></i> {{ service.duration_minutes }} minutes
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center text-md-end">
+                        <small class="text-muted d-block mb-2">Available at</small>
+                        <h4 class="mb-0">{{ salons.count }} Salon{{ salons.count|pluralize }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Description -->
+                {% if service.description %}
+                <div class="mb-5">
+                    <h2 class="mb-4">About This Service</h2>
+                    <p class="lead">{{ service.description }}</p>
+                </div>
+                {% endif %}
+                
+                <!-- Available Salons -->
+                <div class="mb-5">
+                    <h2 class="mb-4">Available at These Salons</h2>
+                    
+                    {% if salons %}
+                    {% for salon in salons %}
+                    <div class="salon-card">
+                        <div class="salon-card-header">
+                            {% if salon.banner_image %}
+                            <img src="{{ salon.banner_image.url }}" alt="{{ salon.salon_name }}" class="salon-image-small">
+                            {% else %}
+                            <div class="salon-image-small" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                            {% endif %}
+                            
+                            <div class="flex-grow-1">
+                                <h5 class="mb-2">{{ salon.salon_name }}</h5>
+                                
+                                {% if salon.address %}
+                                <p class="text-muted mb-2">
+                                    <i class="bi bi-geo-alt"></i> {{ salon.address|truncatewords:8 }}
+                                </p>
+                                {% endif %}
+                                
+                                {% if salon.phone_number %}
+                                <p class="text-muted mb-2">
+                                    <i class="bi bi-telephone"></i> {{ salon.phone_number }}
+                                </p>
+                                {% endif %}
+                                
+                                {% with avg_score=salon.get_average_score %}
+                                {% if avg_score %}
+                                <div class="mb-2">
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="bi bi-star-fill"></i> {{ avg_score }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+                            
+                            <div class="text-end">
+                                <a href="{% url 'salon_booking:salon_detail' salon.id %}" class="btn btn-primary">
+                                    View Salon
+                                </a>
+                                <button class="btn btn-outline-primary mt-2">
+                                    <i class="bi bi-calendar-check"></i> Book
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> 
+                        This service is currently not available at any salons.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Quick Book Card -->
+                <div class="card mb-4 border-0 shadow">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-check display-4 text-primary mb-3"></i>
+                        <h5 class="card-title">Ready to Book?</h5>
+                        <p class="text-muted">Choose a salon and schedule your appointment</p>
+                        <button class="btn btn-primary btn-lg w-100">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Service Details -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Service Details</h5>
+                        
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Category</small>
+                            <strong>{{ service.category.name|default:"General" }}</strong>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Duration</small>
+                            <strong>{{ service.duration_minutes }} minutes</strong>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Price Range</small>
+                            <strong>{{ service.base_price|floatformat:0 }} تومان</strong>
+                        </div>
+                        
+                        <div class="mb-0">
+                            <small class="text-muted d-block">Availability</small>
+                            <strong>{{ salons.count }} location{{ salons.count|pluralize }}</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Related Services -->
+                {% if related_services %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Related Services</h5>
+                        
+                        {% for related in related_services %}
+                        <a href="{% url 'salon_booking:service_detail' related.id %}" class="related-service-card mb-3">
+                            <h6 class="mb-2">{{ related.name }}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock"></i> {{ related.duration_minutes }} min
+                                </small>
+                                <strong class="text-primary">{{ related.base_price|floatformat:0 }}K</strong>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-3">Interested in Other Services?</h2>
+        <p class="text-muted mb-4">Explore our full range of beauty services</p>
+        <a href="{% url 'salon_booking:service_list' %}" class="btn btn-primary btn-lg">
+            <i class="bi bi-grid"></i> View All Services
+        </a>
+    </div>
+</section>
+
+{% endblock %}
